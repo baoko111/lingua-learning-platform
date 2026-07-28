@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>语径 Lingua · 多语种沉浸学习平台</title>
+  <meta name="description" content="语径 Lingua —— 英语、日语、韩语分级沉浸式学习平台" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet" href="css/styles.css?v=4" />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='16' fill='%231c1814'/><text x='16' y='23' font-size='20' font-style='italic' font-family='serif' fill='%23f5efe2' text-anchor='middle'>L</text></svg>" />
+</head>
+<body>
+
+  <!-- ============ 顶部导航 ============ -->
+  <header class="nav">
+    <div class="wrap nav-inner">
+      <a class="brand" href="#/home" data-nav="home">
+        <span class="brand-mark">L</span>
+        <span>
+          语径 <em style="font-style:italic;font-weight:300;color:var(--accent);">Lingua</em>
+          <small>沉浸式多语学习</small>
+        </span>
+      </a>
+
+      <nav class="nav-links" id="navLinks">
+        <a class="nav-link" data-nav="home" href="#/home">首页</a>
+        <a class="nav-link" data-nav="dashboard" href="#/dashboard">学习中心</a>
+        <a class="nav-link" data-nav="courses" href="#/courses">课程</a>
+        <a class="nav-link" data-nav="recommend" href="#/recommend">推荐路径</a>
+        <a class="nav-link" data-nav="community" href="#/community">社区</a>
+        <a class="nav-link" data-nav="achievements" href="#/achievements">成就</a>
+      </nav>
+
+      <div class="nav-right">
+        <div class="streak-pill" id="streakPill" title="连续学习天数">
+          <span class="flame">✺</span>
+          <span id="streakNum">0</span>
+          <span style="color:var(--ink-mute);font-weight:400;">天</span>
+        </div>
+        <button class="user-btn" id="userBtn">
+          <span id="userBtnText">登录</span>
+          <span class="avatar" id="userAvatar" style="display:none;">U</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- ============ 视图容器 ============ -->
+  <main id="app">
+
+    <!-- —— 首页 —— -->
+    <section class="view" data-view="home">
+      <div class="wrap">
+        <div class="hero">
+          <div class="hero-text">
+            <div class="hero-eyebrow">英语 · 日语 · 韩语 · 一径通世界</div>
+            <h1>
+              用每一句<em><span class="lang-rotate" id="langRotate">你好</span></em><br />
+              打开一扇新的世界。
+            </h1>
+            <p class="hero-lead">
+              语径 Lingua 以分级课程为骨架、沉浸互动为肌理，让单词、语法、听力和口语
+              在真实语境中生长。追踪你的每一次进步，推荐只属于你的学习路径。
+            </p>
+            <div class="hero-actions">
+              <button class="btn btn-primary btn-lg" id="heroStart">开始我的第一课</button>
+              <button class="btn btn-ghost btn-lg" id="heroExplore">浏览课程体系</button>
+            </div>
+            <div class="hero-stats">
+              <div class="stat">
+                <div class="num">3<span class="unit">语种</span></div>
+                <div class="lbl">英语 · 日语 · 韩语</div>
+              </div>
+              <div class="stat">
+                <div class="num">17<span class="unit">级</span></div>
+                <div class="lbl">对标 CEFR / JLPT / TOPIK</div>
+              </div>
+              <div class="stat">
+                <div class="num">4<span class="unit">模块</span></div>
+                <div class="lbl">听说读写 · 全域互动</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="hero-visual">
+            <div class="lang-stack" id="langStack">
+              <!-- 语种卡片由 JS 注入 -->
+            </div>
+          </div>
+        </div>
+
+        <!-- 学习模块入口 -->
+        <div class="section-head">
+          <div class="sh-left">
+            <div class="section-eyebrow">沉浸式学习模块</div>
+            <h2 class="section-title">四种方式，<em>一种沉浸</em></h2>
+            <p class="section-sub">每一个模块都为「记住并敢用」而设计，配套即时反馈与进度同步。</p>
+          </div>
+        </div>
+
+        <div class="module-grid" id="moduleGrid">
+          <!-- 模块卡由 JS 注入 -->
+        </div>
+      </div>
+    </section>
+
+    <!-- —— 学习中心 / 仪表盘 —— -->
+    <section class="view" data-view="dashboard">
+      <div class="wrap">
+        <div class="section-head">
+          <div class="sh-left">
+            <div class="section-eyebrow">学习进度追踪</div>
+            <h2 class="section-title" id="dashGreet">早安，<em>同学</em></h2>
+            <p class="section-sub">你的每一步都在被记录。坚持，是最被低估的天赋。</p>
+          </div>
+        </div>
+
+        <div class="dash-grid">
+          <!-- 左：总进度 + 技能 -->
+          <div class="card">
+            <div class="card-h">
+              <h3>总体进度</h3>
+              <span class="tag" id="dashLangTag">英语</span>
+            </div>
+            <div class="progress-ring-wrap">
+              <div class="ring">
+                <svg width="120" height="120">
+                  <circle class="bg" cx="60" cy="60" r="52"></circle>
+                  <circle class="fg" cx="60" cy="60" r="52" id="ringFg"
+                          stroke-dasharray="326.7" stroke-dashoffset="326.7"></circle>
+                </svg>
+                <div class="center">
+                  <div class="pct"><span id="ringPct">0</span><span class="p">%</span></div>
+                </div>
+              </div>
+              <div class="ring-meta">
+                <div class="rm-title" id="rmTitle">尚未开始</div>
+                <div class="rm-sub" id="rmSub">选择一门语言开启旅程</div>
+                <div class="rm-stats">
+                  <div><b id="rmLessons">0</b>已完成</div>
+                  <div><b id="rmXp">0</b>总经验</div>
+                  <div><b id="rmDays">0</b>学习天数</div>
+                </div>
+              </div>
+            </div>
+
+            <div style="margin-top:32px;">
+              <div class="card-h" style="margin-bottom:18px;">
+                <h3 style="font-size:16px;">技能均衡度</h3>
+                <span class="tag">听说读写</span>
+              </div>
+              <div class="skill-list" id="skillList">
+                <!-- 技能条由 JS 注入 -->
+              </div>
+            </div>
+          </div>
+
+          <!-- 右：连续打卡 + 热力图 -->
+          <div style="display:flex;flex-direction:column;gap:28px;">
+            <div class="card">
+              <div class="card-h">
+                <h3>本周打卡</h3>
+                <span class="tag" id="weekStreak">0/7</span>
+              </div>
+              <div class="streak-board" id="streakBoard">
+                <!-- 7 格由 JS 注入 -->
+              </div>
+              <p style="font-size:13px;color:var(--ink-mute);margin-top:16px;">
+                每完成任意一个练习即记为当日打卡。连续学习可解锁专属成就。
+              </p>
+            </div>
+
+            <div class="card">
+              <div class="card-h">
+                <h3>学习活跃度</h3>
+                <span class="tag">近两周</span>
+              </div>
+              <div class="heatmap" id="heatmap"></div>
+              <div class="heatmap-legend">
+                <span>少</span>
+                <span class="cell"></span>
+                <span class="cell l1"></span>
+                <span class="cell l2"></span>
+                <span class="cell l3"></span>
+                <span>多</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- —— 课程浏览 —— -->
+    <section class="view" data-view="courses">
+      <div class="wrap">
+        <div class="section-head">
+          <div class="sh-left">
+            <div class="section-eyebrow">分级课程体系</div>
+            <h2 class="section-title">从入门到精通，<em>拾级而上</em></h2>
+            <p class="section-sub">每一级都有清晰的能力目标与课时建议，对标国际语言标准。</p>
+          </div>
+        </div>
+
+        <div class="lang-tabs" id="langTabs">
+          <!-- 语种切换由 JS 注入 -->
+        </div>
+
+        <div class="level-rail" id="levelRail">
+          <!-- 等级轴由 JS 注入 -->
+        </div>
+
+        <div class="unit-list" id="unitList">
+          <!-- 课程单元由 JS 注入 -->
+        </div>
+      </div>
+    </section>
+
+    <!-- —— 互动学习（模块内） —— -->
+    <section class="view" data-view="learn">
+      <div class="wrap">
+        <div class="learn-shell">
+          <aside class="learn-side" id="learnSide">
+            <!-- 学习侧边导航由 JS 注入 -->
+          </aside>
+          <div class="learn-main" id="learnMain">
+            <!-- 模块内容由 JS 注入 -->
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- —— 个性化推荐 —— -->
+    <section class="view" data-view="recommend">
+      <div class="wrap">
+        <div class="section-head">
+          <div class="sh-left">
+            <div class="section-eyebrow">个性化学习路径</div>
+            <h2 class="section-title">告诉我们要去哪，<em>我们规划怎么走</em></h2>
+            <p class="section-sub">基于你的目标、节奏与现有进度，生成专属学习路径。</p>
+          </div>
+        </div>
+
+        <div id="recoContainer">
+          <!-- 推荐引导/结果由 JS 注入 -->
+        </div>
+      </div>
+    </section>
+
+    <!-- —— 社区 —— -->
+    <section class="view" data-view="community">
+      <div class="wrap">
+        <div class="section-head">
+          <div class="sh-left">
+            <div class="section-eyebrow">学习社区</div>
+            <h2 class="section-title">一个人走得快，<em>一群人走得远</em></h2>
+            <p class="section-sub">分享心得、提问互助、看见彼此的进步。</p>
+          </div>
+        </div>
+
+        <div class="community-grid">
+          <div>
+            <div class="post-composer">
+              <textarea id="postInput" placeholder="分享你的学习心得、提出一个问题……"></textarea>
+              <div class="pc-foot">
+                <select id="postLang">
+                  <option value="en">英语</option>
+                  <option value="ja">日语</option>
+                  <option value="ko">韩语</option>
+                  <option value="mix">综合</option>
+                </select>
+                <button class="btn btn-primary" id="postBtn">发布话题</button>
+              </div>
+            </div>
+            <div class="topic-list" id="topicList">
+              <!-- 话题列表由 JS 注入 -->
+            </div>
+          </div>
+
+          <aside class="community-side">
+            <div class="card">
+              <h3>本周活跃榜</h3>
+              <div class="contrib-list" id="contribList">
+                <!-- 贡献榜由 JS 注入 -->
+              </div>
+            </div>
+            <div class="card">
+              <h3>社区公约</h3>
+              <ul style="font-size:13px;color:var(--ink-soft);line-height:1.9;list-style:disc;padding-left:18px;">
+                <li>友善交流，尊重不同水平的学习者</li>
+                <li>分享真实经验，标注资源出处</li>
+                <li>提问前可先搜索已有话题</li>
+                <li>鼓励比批评更有力量</li>
+              </ul>
+            </div>
+          </aside>
+        </div>
+      </div>
+    </section>
+
+    <!-- —— 成就 —— -->
+    <section class="view" data-view="achievements">
+      <div class="wrap">
+        <div class="section-head">
+          <div class="sh-left">
+            <div class="section-eyebrow">成就激励</div>
+            <h2 class="section-title">每一份坚持，<em>都值得被看见</em></h2>
+            <p class="section-sub" id="achSummary">已解锁 0 / 9 枚徽章，继续前行。</p>
+          </div>
+        </div>
+        <div class="badge-grid" id="badgeGrid">
+          <!-- 徽章由 JS 注入 -->
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ============ 认证模态 ============ -->
+  <div class="modal-overlay" id="authModal">
+    <div class="modal">
+      <button class="modal-close" id="authClose">×</button>
+      <h2 id="authTitle">欢迎<em>回来</em></h2>
+      <p class="modal-sub" id="authSub">登录以同步你的学习进度</p>
+      <div class="auth-error" id="authError"></div>
+      <div class="field" id="nameField" style="display:none;">
+        <label>昵称</label>
+        <input type="text" id="authName" placeholder="你想被怎样称呼？" autocomplete="off" />
+      </div>
+      <div class="field">
+        <label>账号</label>
+        <input type="text" id="authAccount" placeholder="邮箱或用户名" autocomplete="off" />
+      </div>
+      <div class="field">
+        <label>密码</label>
+        <input type="password" id="authPass" placeholder="至少 4 位" autocomplete="off" />
+      </div>
+      <button class="btn btn-primary btn-lg" id="authSubmit">登录</button>
+      <div class="modal-foot">
+        <span id="authSwitchText">还没有账号？</span>
+        <button type="button" id="authSwitch" class="auth-switch-btn">立即注册</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ Toast 容器 ============ -->
+  <div class="toast-wrap" id="toastWrap"></div>
+
+  <script src="js/data.js?v=4"></script>
+  <script src="js/app.js?v=4"></script>
+</body>
+</html>
